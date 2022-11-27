@@ -3,17 +3,13 @@
     "version": "0.0.0",
     "description": "RESTful API Server using Node JS",
     "author": {
-        "name": "",
-        "email": ""
+        "name": "Neshua Aguilar",
+        "email": "agui5520@stthomas.edu"
     },
     "contributors": [
         {
-            "name": "",
-            "email": ""
-        },
-        {
-            "name": "",
-            "email": ""
+            "name": "Owen Hiskey",
+            "email": "hisk2323@stthomas.edu"
         }
     ],
     "main": "server.js",

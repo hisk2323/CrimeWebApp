@@ -29,31 +29,46 @@ let db = new sqlite3.Database(db_filename, sqlite3.OPEN_READWRITE, (err) => {
 // GET request handler for crime codes
 app.get('/codes', (req, res) => {
     console.log(req.query); // query object (key-value pairs after the ? in the url)
-    let query = 'SELECT * FROM Codes ORDER BY code'
-    db.all(query, (err, rows) =>{
-        console.log(err)
-        console.log(rows.length)
-        res
-            .status(200)
-            .type('json')
-            .send(rows)
-
-    })
+    if (req.query.hasOwnProperty('code')) {
+        let params = [req.query.code];
+        let query = 'SELECT * FROM Codes WHERE code IN (' + params.join(',') + ') ORDER BY code;';
+        databaseSelect(query).then((rows) => {
+            res.status(200).type('json').send(rows);
+        }).catch((err) => {
+            console.log(err);
+        });
+    } else {
+        let query = 'SELECT * FROM Codes ORDER BY code;'
+        databaseSelect(query).then((rows) => {
+            res.status(200).type('json').send(rows);
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
 });
 
 // GET request handler for neighborhoods
 app.get('/neighborhoods', (req, res) => {
     console.log(req.query); // query object (key-value pairs after the ? in the url)
-    let query = 'SELECT Neighborhoods.neighborhood_number AS id, Neighborhoods.neighborhood_name AS name \
-                FROM Neighborhoods ORDER BY id'
-    db.all(query, (err, rows)=>{
-        console.log(err)
-        console.log(rows.length)
-        res
-            .status(200)
-            .type('json')
-            .send(rows)
-    })
+    if (req.query.hasOwnProperty('id')) {
+        let params = [req.query.id];
+        let query = 'SELECT Neighborhoods.neighborhood_number AS id, Neighborhoods.neighborhood_name AS name \
+        FROM Neighborhoods WHERE neighborhood_number IN (' + params.join(',') + ') \
+        ORDER BY neighborhood_number;';
+        databaseSelect(query).then((rows) => {
+            res.status(200).type('json').send(rows);
+        }).catch((err) => {
+            console.log(err);
+        });
+    } else {
+        let query = 'SELECT Neighborhoods.neighborhood_number AS id, Neighborhoods.neighborhood_name AS name \
+        FROM Neighborhoods ORDER BY id;'
+        databaseSelect(query).then((rows) => {
+            res.status(200).type('json').send(rows);
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
 });
 
 // GET request handler for crime incidents
