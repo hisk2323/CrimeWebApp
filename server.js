@@ -31,14 +31,14 @@ app.get('/codes', (req, res) => {
     console.log(req.query); // query object (key-value pairs after the ? in the url)
     if (req.query.hasOwnProperty('code')) {
         let params = [req.query.code];
-        let query = 'SELECT * FROM Codes WHERE code IN (' + params.join(',') + ') ORDER BY code;';
+        let query = 'SELECT Codes.code AS code, Codes.incident_type AS type FROM Codes WHERE code IN (' + params.join(',') + ') ORDER BY code;';
         databaseSelect(query).then((rows) => {
             res.status(200).type('json').send(rows);
         }).catch((err) => {
             console.log(err);
         });
     } else {
-        let query = 'SELECT * FROM Codes ORDER BY code;'
+        let query = 'SELECT Codes.code AS code, Codes.incident_type AS type FROM Codes ORDER BY code;'
         databaseSelect(query).then((rows) => {
             res.status(200).type('json').send(rows);
         }).catch((err) => {
@@ -74,14 +74,12 @@ app.get('/neighborhoods', (req, res) => {
 // GET request handler for crime incidents
 app.get('/incidents', (req, res) => {
     console.log(req.query); // query object (key-value pairs after the ? in the url)
-    let query = "SELECT *, CONVERT(VARCHAR, date_time, 101), CONVERT(VARCHAR, date_time, 108) \
-                FROM Incidents"
-    db.all(query, (err,rows)=>{
-        console.log(err)
-        res
-            .status(200)
-            .type('json')
-            .send(rows)
+    let query = "SELECT case_number, date(date_time) AS date, time(date_time) AS time, code, incident, \
+    police_grid, neighborhood_number, block FROM Incidents LIMIT 1000;";
+    databaseSelect(query).then((rows) => {
+        res.status(200).type('json').send(rows);
+    }).catch((err) => {
+        console.log(err);
     })
     // res.status(200).type('json').send({}); // <-- you will need to change this
 });
