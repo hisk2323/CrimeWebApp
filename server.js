@@ -75,7 +75,7 @@ app.get('/neighborhoods', (req, res) => {
 app.get('/incidents', (req, res) => {
     console.log(req.query); // query object (key-value pairs after the ? in the url)
     let query = "SELECT case_number, date(date_time) AS date, time(date_time) AS time, code, incident, \
-    police_grid, neighborhood_number, block FROM Incidents LIMIT 1000;";
+    police_grid, neighborhood_number, block FROM Incidents ORDER BY date_time LIMIT 1000;";
     databaseSelect(query).then((rows) => {
         res.status(200).type('json').send(rows);
     }).catch((err) => {
