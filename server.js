@@ -74,14 +74,49 @@ app.get('/neighborhoods', (req, res) => {
 // GET request handler for crime incidents
 app.get('/incidents', (req, res) => {
     console.log(req.query); // query object (key-value pairs after the ? in the url)
-    let query = "SELECT case_number, date(date_time) AS date, time(date_time) AS time, code, incident, \
-    police_grid, neighborhood_number, block FROM Incidents ORDER BY date_time LIMIT 1000;";
+    let query;
+    if (Object.keys(req.query).length === 0) { // empty query
+        query = "SELECT case_number, date(date_time) AS date, time(date_time) AS time, code, incident, police_grid, neighborhood_number, block FROM Incidents LIMIT 1000;";
+    } else {
+        query = "SELECT case_number, date(date_time) AS date, time(date_time) AS time, code, incident, police_grid, neighborhood_number, block FROM Incidents WHERE";
+
+        params = ['0000-00-00', '9999-99-99', 'SELECT DISTINCT code FROM Incidents', 'SELECT DISTINCT police_grid FROM Incidents', 'SELECT DISTINCT neighborhood_number FROM Incidents', '1000'];
+
+        if (req.query.hasOwnProperty('start_date')) {
+            params[0] = req.query.start_date;
+        }
+
+        if (req.query.hasOwnProperty('end_date')) {
+            params[1] = req.query.end_date;
+        }
+
+        if (req.query.hasOwnProperty('code')) {
+            params[2] = req.query.code;
+        }
+
+        if (req.query.hasOwnProperty('grid')) {
+            params[3] = req.query.grid;
+        }
+
+        if (req.query.hasOwnProperty('neighborhood')) {
+            params[4] = req.query.neighborhood;
+        }
+
+        if (req.query.hasOwnProperty('limit')) {
+            params[5] = req.query.limit;
+        }
+
+        query += ' date(date_time) >= "' + params[0] + '" AND date(date_time) <= "' + params[1] + '" AND code IN (' + params[2] + ') AND police_grid IN (' +
+        params[3] +') AND neighborhood_number IN (' + params[4] + ') LIMIT ' + params[5] + ';';
+
+        console.log(query);
+    }
+
     databaseSelect(query).then((rows) => {
         res.status(200).type('json').send(rows);
     }).catch((err) => {
         console.log(err);
     })
-    // res.status(200).type('json').send({}); // <-- you will need to change this
 });
 
 // PUT request handler for new crime incident
