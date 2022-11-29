@@ -124,17 +124,16 @@ app.put('/new-incident', (req, res) => {
     console.log(req.body); // uploaded data by user, should be in json format
     userData = req.body;
     let query = 'INSERT INTO Incidents(case_number, date, time, code, incident, police_grid, \
-                neighborhood_number, block) VALUES (' + userData.case_number + ', ' + userData.date + ',  \
-                ' + userData.time + ', ' + userData.code + ', ' + userData.incident + ', ' + userData.police_grid +
-                ', '+ userData.neighborhood_number + ', '+ userData.block + ')' 
-    try {
-        res.json(validateIncident(userData));
-        databaseRun(query).then(console.log('incident created succesfully'))
-
-      } catch(err) {
+                neighborhood_number, block) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
+    
+    res.json(validateIncident(userData));
+    databaseRun(query, [userData.case_number, userData.date , userData.time , userData.code ,
+        userData.incident, userData.police_grid , userData.neighborhood_number, userData.block ])
+        .then(console.log('incident created succesfully'))
+    .catch((err) => {
         console.error('Error while adding incident', err.message);
         next(err);
-      }
+    })
 
     // console.log(req.body);
     // res.status(200).type('txt').send('OK'); // <-- you may need to change this
