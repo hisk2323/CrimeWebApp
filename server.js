@@ -122,14 +122,28 @@ app.get('/incidents', (req, res) => {
 // PUT request handler for new crime incident
 app.put('/new-incident', (req, res) => {
     console.log(req.body); // uploaded data by user, should be in json format
-    
-    res.status(200).type('txt').send('OK'); // <-- you may need to change this
+    userData = req.body;
+    let query = 'INSERT INTO Incidents(case_number, date, time, code, incident, police_grid, \
+                neighborhood_number, block) VALUES (' + userData.case_number + ', ' + userData.date + ',  \
+                ' + userData.time + ', ' + userData.code + ', ' + userData.incident + ', ' + userData.police_grid +
+                ', '+ userData.neighborhood_number + ', '+ userData.block + ')' 
+    try {
+        res.json(validateIncident(userData));
+        databaseRun(query).then(console.log('incident created succesfully'))
+
+      } catch(err) {
+        console.error('Error while adding incident', err.message);
+        next(err);
+      }
+
+    // console.log(req.body);
+    // res.status(200).type('txt').send('OK'); // <-- you may need to change this
 });
 
 // DELETE request handler for new crime incident
 app.delete('/remove-incident', (req, res) => {
     console.log(req.body); // uploaded data
-    
+
     res.status(200).type('txt').send('OK'); // <-- you may need to change this
 });
 
@@ -161,6 +175,54 @@ function databaseRun(query, params) {
         });
     })
 }
+function validateIncident(incident) {
+    let messages = [];
+  
+    console.log(incident);
+  
+    if (!incident) {
+      messages.push('No object is provided');
+    }
+  
+    if (!incident.case_number) {
+      messages.push('case_number is empty');
+    }
+  
+    if (!incident.date) {
+      messages.push('date is empty');
+    }
+    
+    if (!incident.time) {
+        messages.push('time is empty');
+    }
+
+    if (!incident.code) {
+        messages.push('code is empty');
+    }
+
+    if (!incident.incident) {
+        messages.push('incident is empty');
+    }
+
+    if (!incident.police_grid) {
+        messages.push('police_grid is empty');
+    }
+
+    if (!incident.neighborhood_number) {
+        messages.push('neighborhood_number is empty');
+    }
+
+    if (!incident.block) {
+        messages.push('block is empty');
+    }
+
+    if (messages.length) {
+      let error = new Error(messages.join());
+      error.statusCode = 400;
+  
+      throw error;
+    }
+  }
 
 
 // Start server - listen for client connections
