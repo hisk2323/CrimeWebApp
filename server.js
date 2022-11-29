@@ -121,22 +121,25 @@ app.get('/incidents', (req, res) => {
 
 // PUT request handler for new crime incident
 app.put('/new-incident', (req, res) => {
-    console.log(req.body); // uploaded data by user, should be in json format
+    console.log("request.body = " ,req.body); // uploaded data by user, should be in json format
     userData = req.body;
-    let query = 'INSERT INTO Incidents(case_number, date, time, code, incident, police_grid, \
-                neighborhood_number, block) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
+    let query = 'INSERT INTO Incidents(case_number, date_time, code, incident, police_grid, \
+                neighborhood_number, block) VALUES (?, ?, ?, ?, ?, ?, ?)'
     
-    res.json(validateIncident(userData));
-    databaseRun(query, [userData.case_number, userData.date , userData.time , userData.code ,
-        userData.incident, userData.police_grid , userData.neighborhood_number, userData.block ])
-        .then(console.log('incident created succesfully'))
-    .catch((err) => {
-        console.error('Error while adding incident', err.message);
-        next(err);
-    })
+    validateIncident(userData);
 
-    // console.log(req.body);
-    // res.status(200).type('txt').send('OK'); // <-- you may need to change this
+    databaseRun(query, [userData.case_number, userData.date + 'T' + userData.time , userData.code ,
+        userData.incident, userData.police_grid , userData.neighborhood_number, userData.block ])
+        .then(() => {
+            console.log('incident created');
+            res.status(200).type('json').send(userData)
+        })
+        .catch((err) => {
+            console.error('Error while adding incident', err.message);
+            res.status(500).type('json').send('Incident not added')
+        });
+    console.log('promise created');
+
 });
 
 // DELETE request handler for new crime incident
@@ -153,8 +156,7 @@ function databaseSelect(query, params) {
         db.all(query, params, (err, rows) => {
             if (err) {
                 reject(err);
-            }
-            else {
+            } else {
                 resolve(rows);
             }
         });
@@ -167,8 +169,7 @@ function databaseRun(query, params) {
         db.run(query, params, (err) => {
             if (err) {
                 reject(err);
-            }
-            else {
+            } else {
                 resolve();
             }
         });
@@ -177,7 +178,7 @@ function databaseRun(query, params) {
 function validateIncident(incident) {
     let messages = [];
   
-    console.log(incident);
+    console.log("incident = " , incident);
   
     if (!incident) {
       messages.push('No object is provided');
@@ -216,7 +217,7 @@ function validateIncident(incident) {
     }
 
     if (messages.length) {
-      let error = new Error(messages.join());
+      let error = new Error(messages.join('\n'));
       error.statusCode = 400;
   
       throw error;
