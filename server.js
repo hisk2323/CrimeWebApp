@@ -128,18 +128,27 @@ app.put('/new-incident', (req, res) => {
     
     validateIncident(userData);
 
-    databaseRun(query, [userData.case_number, userData.date + 'T' + userData.time , userData.code ,
-        userData.incident, userData.police_grid , userData.neighborhood_number, userData.block ])
-        .then(() => {
-            console.log('incident created');
-            res.status(200).type('json').send(userData)
-        })
-        .catch((err) => {
-            console.error('Error while adding incident', err.message);
-            res.status(500).type('json').send('Incident not added')
-        });
-    console.log('promise created');
-
+    databaseSelect('SELECT * FROM Incidents WHERE case_number IS ?;', userData.case_number).then((rows) => {
+        console.log('rows.length is ' + rows.length);
+        if (rows.length > 0) {
+            console.log('An incident with this case number already exists.');
+            res.status(500).type('txt').send('An incident with this case number already exists.');
+        } else {
+            databaseRun(query, [userData.case_number, userData.date + 'T' + userData.time , userData.code ,
+            userData.incident, userData.police_grid , userData.neighborhood_number, userData.block ])
+            .then(() => {
+                console.log('incident created');
+                res.status(200).type('json').send(userData)
+            })
+            .catch((err) => {
+                console.error('Error while adding incident', err.message);
+                res.status(500).type('json').send('Incident not added');
+            });
+        console.log('promise created');
+        }
+    }).catch((err) => {
+        console.log(err);
+    })
 });
 
 // DELETE request handler for new crime incident
