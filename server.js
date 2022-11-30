@@ -139,8 +139,7 @@ app.put('/new-incident', (req, res) => {
             .then(() => {
                 console.log('incident created');
                 res.status(200).type('json').send(userData)
-            })
-            .catch((err) => {
+            }).catch((err) => {
                 console.error('Error while adding incident', err.message);
                 res.status(500).type('json').send('Incident not added');
             });
@@ -154,8 +153,27 @@ app.put('/new-incident', (req, res) => {
 // DELETE request handler for new crime incident
 app.delete('/remove-incident', (req, res) => {
     console.log(req.body); // uploaded data
+    userData = req.body;
+    let query = 'DELETE FROM Incidents WHERE case_number = ?'
 
-    res.status(200).type('txt').send('OK'); // <-- you may need to change this
+    databaseSelect('SELECT* FROM Incidents WHERE case_number = ?', userData.case_number).then((rows)=>{
+        console.log('rows length = ', rows.length)
+        if (rows.length === 0){
+            console.log('No such incident exists.')
+            res.status(500).type('txt').send('No such incident exists');
+        } else {
+            databaseRun(query, userData.case_number)
+            .then(() =>{
+                res.status(200).type('txt').send('incident deleted')
+                console.log('incident deleted')
+            }).catch((err)=>{
+                console.error('Error while deleting incident', err.message);
+                res.status(500).type('json').send('Incident not deleted');
+            });
+        }
+    }).catch ((err)=>{
+        console.log(err);
+    })
 });
 
 
