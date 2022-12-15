@@ -153,13 +153,40 @@ export default {
             console.log(err);
         });
 
+        this.getJSON('http://localhost:8000/incidents/').then((result) => {
+            this.incidents = result;
+            for (let i = 0; i < this.leaflet.neighborhood_markers.length; i++) {
+                let count = 0;
+                for (let j = 0; j < this.incidents.length; j++) {
+                    if (this.incidents[j].neighborhood_number == i + 1) {
+                        count += 1;
+                    }
+                }
+                let marker = L.marker(this.leaflet.neighborhood_markers[i].location);
+                marker.addTo(this.leaflet.map);
+                marker.bindPopup(count + ' crimes');
+            }
+        }).catch((err) => {
+            console.log(err);
+        });
+        // this.updateIncidents('http://localhost:8000/incidents/');
+        // for (let i = 0; i < this.leaflet.neighborhood_markers.length; i++) {
+        //     let count = 0;
+        //     for (let j = 0; j < this.incidents.length; j++) {
+        //         if (incidents[j].neighborhood_number - 1 == i) {
+        //             count += 1;
+        //         }
+        //         let marker = L.marker(this.leaflet.neighborhood_markers[i].location);
+        //         console.log(marker);
+        //         marker.addTo(this.leaflet.map);
+        //         marker.bindPopup(count + 'crimes').openPopUp();
+        //     }
+        // }
+
         this.leaflet.map.on('moveend', (e) => {
             let currentNeighborhoods = [];
-            //let layers = district_boundary._layers;
             let bounds = this.leaflet.map.getBounds();
             let neighborhoods_temp = this.leaflet.neighborhood_markers;
-            //console.log(neighborhoods_temp);
-            console.log(this.neighborhoods);
             for (let i = 0; i < neighborhoods_temp.length; i++) {
                 let temp = neighborhoods_temp[i].location;
                 if (bounds.contains(temp)) {
