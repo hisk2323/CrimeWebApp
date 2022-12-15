@@ -139,6 +139,14 @@ export default {
         }).catch((err) => {
             console.log(err);
         });
+
+        this.getJSON('http://localhost:8000/neighborhoods/').then((result) => {
+            for (let i = 0; i < result.length; i++) {
+                this.neighborhoods[i] = result[i].name;
+            }
+        }).catch((err) => {
+            console.log(err);
+        });        
     }
 }
 </script>
@@ -169,7 +177,6 @@ export default {
                                 <th>Case Number</th>
                                 <th>Date</th>
                                 <th>Time</th>
-                                <th>Code</th>
                                 <th>Incident</th>
                                 <th>Police grid</th>
                                 <th>Neighborhood</th>
@@ -181,10 +188,9 @@ export default {
                                 <td>{{ item.case_number }}</td>
                                 <td>{{ item.date }}</td>
                                 <td>{{ item.time }}</td>
-                                <td>{{ item.code }}</td>
                                 <td>{{ item.incident }}</td>
                                 <td>{{ item.police_grid }}</td>
-                                <td>{{ item.neighborhood_name }}</td>
+                                <td>{{ neighborhoods[item.neighborhood_number] }}</td>
                                 <td>{{ item.block }}</td>
                             </tr>
                         </tbody>
