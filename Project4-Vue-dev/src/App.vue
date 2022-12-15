@@ -133,6 +133,12 @@ export default {
         }).catch((error) => {
             console.log('Error:', error);
         });
+
+        this.getJSON('http://localhost:8000/incidents/').then((result) => {
+            this.incidents = result;
+        }).catch((err) => {
+            console.log(err);
+        });
     }
 }
 </script>
@@ -166,12 +172,21 @@ export default {
                                 <th>Code</th>
                                 <th>Incident</th>
                                 <th>Police grid</th>
-                                <th>Neighborhood></th>
+                                <th>Neighborhood</th>
                                 <th>Block</th>
                             </tr>
                         </thead>
                         <tbody>
-
+                            <tr v-for="(item) in incidents">
+                                <td>{{ item.case_number }}</td>
+                                <td>{{ item.date }}</td>
+                                <td>{{ item.time }}</td>
+                                <td>{{ item.code }}</td>
+                                <td>{{ item.incident }}</td>
+                                <td>{{ item.police_grid }}</td>
+                                <td>{{ item.neighborhood_name }}</td>
+                                <td>{{ item.block }}</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
