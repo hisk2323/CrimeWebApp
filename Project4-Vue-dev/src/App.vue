@@ -158,7 +158,7 @@ export default {
             for (let i = 0; i < this.leaflet.neighborhood_markers.length; i++) {
                 let count = 0;
                 for (let j = 0; j < this.incidents.length; j++) {
-                    if (this.incidents[j].neighborhood_number == i + 1) {
+                    if (this.incidents[j].neighborhood_number == i - 1) {
                         count += 1;
                     }
                 }
@@ -169,19 +169,6 @@ export default {
         }).catch((err) => {
             console.log(err);
         });
-        // this.updateIncidents('http://localhost:8000/incidents/');
-        // for (let i = 0; i < this.leaflet.neighborhood_markers.length; i++) {
-        //     let count = 0;
-        //     for (let j = 0; j < this.incidents.length; j++) {
-        //         if (incidents[j].neighborhood_number - 1 == i) {
-        //             count += 1;
-        //         }
-        //         let marker = L.marker(this.leaflet.neighborhood_markers[i].location);
-        //         console.log(marker);
-        //         marker.addTo(this.leaflet.map);
-        //         marker.bindPopup(count + 'crimes').openPopUp();
-        //     }
-        // }
 
         this.leaflet.map.on('moveend', (e) => {
             let currentNeighborhoods = [];
