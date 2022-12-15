@@ -97,18 +97,20 @@ export default {
                 if (result.length == 0) {
                     alert("No matches found! Please try a different search query.");
                     document.getElementById('search').value = '';
+                } else {
+                    let lon = result[0].lon;
+                    let lat = result[0].lat;
+                    if (lat < 44.883658 || lon < -93.217977 || lat > 45.008206 || lon > -92.993787) {
+                       alert("No matches found within St. Paul! Please try a different search query.");
+                       document.getElementById('search').value = '';
+                    } else {
+                        this.leaflet.map.setView([lat, lon], 15);
+                    }
                 }
-                let lon = result[0].lon;
-                let lat = result[0].lat;
-                if (lat < 44.883658 || lon < -93.217977 || lat > 45.008206 || lon > -92.993787) {
-                    alert("No matches found within St. Paul! Please try a different search query.");
-                    document.getElementById('search').value = '';
-                }
-                this.leaflet.map.setView([lat, lon], 15);
             }).catch((err) => {
                 console.log(err)
             });
-            
+
         }
     },
     mounted() {
