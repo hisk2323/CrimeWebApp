@@ -89,28 +89,39 @@ export default {
             });
         },
         search() {
-            //this.leaflet.map.setView([this.leaflet.center.lat, this.leaflet.center.lng], this.leaflet.zoom);
             let search = document.getElementById('search').value.replace(' ', '+');
+            if (search == '') {
+                alert('You have to actually search for something!');
+                return;
+            }
             let url = 'https://nominatim.openstreetmap.org/search?q=' + search + '&format=jsonv2&limit=0';
-            console.log(url);
             this.getJSON(url).then((result) => {
                 if (result.length == 0) {
                     alert("No matches found! Please try a different search query.");
                     document.getElementById('search').value = '';
+                    return;
                 } else {
+                    let coords = [result[0].lon, result[0].lat];
                     let lon = result[0].lon;
                     let lat = result[0].lat;
                     if (lat < 44.883658 || lon < -93.217977 || lat > 45.008206 || lon > -92.993787) {
-                       alert("No matches found within St. Paul! Please try a different search query.");
-                       document.getElementById('search').value = '';
+                        alert("No matches found within St. Paul! Please try a different search query.");
+                        document.getElementById('search').value = '';
+                        return;
                     } else {
                         this.leaflet.map.setView([lat, lon], 15);
                     }
                 }
             }).catch((err) => {
-                console.log(err)
+                console.log(err);
             });
-
+        },
+        updateIncidents(url) {
+            this.getJSON(url).then((result) => {
+                this.incidents = result;
+            }).catch((err) => {
+                console.log(err);
+            });
         }
     },
     mounted() {
@@ -134,19 +145,30 @@ export default {
             console.log('Error:', error);
         });
 
-        this.getJSON('http://localhost:8000/incidents/').then((result) => {
-            this.incidents = result;
-        }).catch((err) => {
-            console.log(err);
-        });
-
         this.getJSON('http://localhost:8000/neighborhoods/').then((result) => {
             for (let i = 0; i < result.length; i++) {
                 this.neighborhoods[i] = result[i].name;
             }
         }).catch((err) => {
             console.log(err);
-        });        
+        });
+
+        this.leaflet.map.on('moveend', (e) => {
+            let currentNeighborhoods = [];
+            //let layers = district_boundary._layers;
+            let bounds = this.leaflet.map.getBounds();
+            let neighborhoods_temp = this.leaflet.neighborhood_markers;
+            //console.log(neighborhoods_temp);
+            console.log(this.neighborhoods);
+            for (let i = 0; i < neighborhoods_temp.length; i++) {
+                let temp = neighborhoods_temp[i].location;
+                if (bounds.contains(temp)) {
+                    currentNeighborhoods.push(i + 1);
+                }
+            }
+            let url = 'http://localhost:8000/incidents/?neighborhood=' + currentNeighborhoods.toString();
+            this.updateIncidents(url);
+        });
     }
 }
 </script>
@@ -190,7 +212,7 @@ export default {
                                 <td>{{ item.time }}</td>
                                 <td>{{ item.incident }}</td>
                                 <td>{{ item.police_grid }}</td>
-                                <td>{{ neighborhoods[item.neighborhood_number] }}</td>
+                                <td>{{ neighborhoods[item.neighborhood_number - 1] }}</td>
                                 <td>{{ item.block }}</td>
                             </tr>
                         </tbody>
