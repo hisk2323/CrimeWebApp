@@ -90,9 +90,21 @@ export default {
         },
         search() {
             //this.leaflet.map.setView([this.leaflet.center.lat, this.leaflet.center.lng], this.leaflet.zoom);
-            let url = 'https://nominatim.openstreetmap.org/search?' + document.getElementById('search').value;
+            let search = document.getElementById('search').value.replace(' ', '+');
+            let url = 'https://nominatim.openstreetmap.org/search?q=' + search + '&format=jsonv2&limit=0';
+            console.log(url);
             this.getJSON(url).then((result) => {
-                console.log(result);
+                if (result.length == 0) {
+                    alert("No matches found! Please try a different search query.");
+                    document.getElementById('search').value = '';
+                }
+                let lon = result[0].lon;
+                let lat = result[0].lat;
+                if (lat < 44.883658 || lon < -93.217977 || lat > 45.008206 || lon > -92.993787) {
+                    alert("No matches found within St. Paul! Please try a different search query.");
+                    document.getElementById('search').value = '';
+                }
+                this.leaflet.map.setView([lat, lon], 15);
             }).catch((err) => {
                 console.log(err)
             });
