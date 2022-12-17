@@ -158,7 +158,7 @@ export default {
             for (let i = 0; i < this.leaflet.neighborhood_markers.length; i++) {
                 let count = 0;
                 for (let j = 0; j < this.incidents.length; j++) {
-                    if (this.incidents[j].neighborhood_number == i - 1) {
+                    if (this.incidents[j].neighborhood_number == i + 1) {
                         count += 1;
                     }
                 }
@@ -246,8 +246,63 @@ export default {
     <div v-if="view === 'about'">
         <!-- Replace this with your actual about the project content: can be done here or by making a new component -->
         <div class="grid-container">
-            <div class="grid-x grid-padding-x">
-                <h1 class="cell auto">About the Project</h1>
+            <div class="grid-x grid-margin-x">
+                <h1 class="cell auto" style="text-align: center;">About the Project</h1>
+            </div>
+            <div class="grid-x grid-margin-x"
+                style="border: 0.05em solid black; border-radius: 1em; margin-top: 1em; margin-bottom: 1em">
+                <h3 class="cell small-12" style="text-align: center">Team members</h3>
+                <div class="cell small-6"
+                    style="border: 0.05em solid black; border-radius: 1em; margin-top: 1em; margin-bottom: 1em">
+                    <h4 style="text-align: center">Owen Hiskey</h4>
+                    <img src="data/owen.jpg" alt="Owen photo"
+                        style="width:15rem; margin-left: auto; margin-right: auto; display: block;">
+                    <p style="font-size: 1.25rem; text-align: center">Owen Hiskey is a senior computer science student
+                        graduating this May.</p>
+                </div>
+                <div class="cell small-6"
+                    style="border: 0.05em solid black; border-radius: 1em; margin-top: 1em; margin-bottom: 1em">
+                    <h4 style="text-align: center">Neshua Aguilar</h4>
+                    <!-- Add an image here -->
+                    <!-- Add a short bio here -->
+                </div>
+            </div>
+            <div class="grid-x grid-margin-x">
+                <div class="cell small-12" style="border: 0.05em solid black; border-radius: 1em; margin-top: 1em">
+                    <h3 class="cell auto" style="text-align: center">Tools and technologies used</h3>
+                    <div class="cell small-12">
+                        <ul style="font-size: 1.25rem">
+                            <li>RESTful API from Project 3</li>
+                            <li>Leaflet API</li>
+                            <li>Nominatim API</li>
+                            <li>Vue.JS</li>
+                            <li>Foundation Framework</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="grid-x grid-margin-x">
+                <div class="cell small-12" style="border: 0.05em solid black; border-radius: 1em; margin-top: 1em">
+                    <h3 class="cell auto" style="text-align: center">Interesting findings</h3>
+                    <div class="cell small-12">
+                        <ul style="font-size: 1.25rem">
+                            <li>Few crimes occur in the Saint Anthony Park area</li>
+                            <li>Many crimes occur in the Payne/Phalen area</li>
+                            <li>3 thefts occured at 5:00:00PM on 2014-08-14 in the Payne/Phalen neighborhood</li>
+                            <li>The most common crime type appears to be Theft</li>
+                            <li>Nominatim's API is full-featured and useful</li>
+                            <li>The 'map.moveend' event is triggered both after panning and zooming the map</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="grid-x grid-margin-x">
+                <div class="cell small-12" style="border: 0.05em solid black; border-radius: 1em; margin-top: 1em">
+                    <h3 class="cell auto" style="text-align: center">Project demo</h3>
+                    <div class="cell small-12">
+                        <p>Add a demo here later</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
