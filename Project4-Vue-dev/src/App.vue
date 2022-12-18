@@ -208,7 +208,7 @@ export default {
 
             let lat;
             let lon;
-            let url = 'https://nominatim.openstreetmap.org/search?q=' + myAdd + ',' + 'st_paul' + '&format=jsonv2&limit=0';
+            let url = 'https://nominatim.openstreetmap.org/search?q=' + myAdd + ',' + 'st_paul_minnesota' + '&format=jsonv2&limit=0';
             this.getJSON(url).then((result) => {
                 console.log(result)
                 lat = result[0].lat;
