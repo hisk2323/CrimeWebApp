@@ -13,37 +13,51 @@ export default {
             incidents: [],
             incidentTypes: [],
             incidentCodeRanges: [
-                {crime: 'Homicide', code: '100'},
-                {crime: 'Murder', code: ['110', '120']},
-                {crime: 'Rape', code: ['210','220']},
-                {crime: 'Roberry', code: ['300', '310', '313', '314', '321', '322', '323', '324',
+                { crime: 'Homicide', code: '100' },
+                { crime: 'Murder', code: ['110', '120'] },
+                { crime: 'Rape', code: ['210', '220'] },
+                {
+                    crime: 'Roberry', code: ['300', '310', '313', '314', '321', '322', '323', '324',
                         '331', '333', '334', '341', '342', '343', '344', '351', '352', '353', '354',
-                        '361', '363', '364', '371', '372', '373', '374']},
-                {crime: 'Agravated Assault', code:['400', '410', '411', '412', '420', '421','422',
-                        '430', '431', '432', '440', '441', '442', '450', '451', '452', '453']},
-                {crime: 'Burglary', code: ['500', '510', '511','513','515', '516', '520', '521',
+                        '361', '363', '364', '371', '372', '373', '374']
+                },
+                {
+                    crime: 'Agravated Assault', code: ['400', '410', '411', '412', '420', '421', '422',
+                        '430', '431', '432', '440', '441', '442', '450', '451', '452', '453']
+                },
+                {
+                    crime: 'Burglary', code: ['500', '510', '511', '513', '515', '516', '520', '521',
                         '523', '525', '526', '530', '531', '533', '535', '536', '540', '541', '543',
-                        '545','545','546','550','552','551','553','555', '556','560','561', '563',
-                        '565','566']},
-                {crime: 'Theft', code: ['600', '603', '611','612', '613', '614', '621', '622',
-                        '623', '630', '631','632','633','631','633','640','641','642', '643','651',
-                        '652', '653', '661', '662','663','671','672','673','681','682','683','691',
-                        '692','693']},
-                {crime: 'Motor Vehicle Theft', code:[ '700', '710','711','712','720','721','730','731',
-                        '732']},
-                {crime: 'Assault', code: ['810', '861','862','863']},
-                {crime: 'Arson', code: ['900','901','903','905','911','913','915','921','922','923','925',
-                        '931','933','941','942','951','961','971','972','975', '981','981','982']},
-                {crime: 'Criminal Damage to Property', code:[ '1400','1410', '1420', '1430']},
-                {crime: 'Graffiti', code: ['1401', '1415', '1416', '1425', '1426', '1435', '1436']},
-                {crime: 'Narcotics', code: ['1800','1810','1811','1812','1813','1814','1815','1820','1822',
-                        '1823','1824','1825','1830','1835','1840','1841','1842','1843','1844','1845','1850',
-                        '1855', '1860','1885']},
-                {crime: 'Weapons', code: '2619'},
-                {crime: 'Death', code: '3100'},
-                {crime: 'Proactive Police Visit', code: '9954'},
-                {crime: 'Community Engagement Event', code: '9959'},
-                {crime: 'Proactive Foot Patrol', code: '9986'}
+                        '545', '545', '546', '550', '552', '551', '553', '555', '556', '560', '561', '563',
+                        '565', '566']
+                },
+                {
+                    crime: 'Theft', code: ['600', '603', '611', '612', '613', '614', '621', '622',
+                        '623', '630', '631', '632', '633', '631', '633', '640', '641', '642', '643', '651',
+                        '652', '653', '661', '662', '663', '671', '672', '673', '681', '682', '683', '691',
+                        '692', '693']
+                },
+                {
+                    crime: 'Motor Vehicle Theft', code: ['700', '710', '711', '712', '720', '721', '730', '731',
+                        '732']
+                },
+                { crime: 'Assault', code: ['810', '861', '862', '863'] },
+                {
+                    crime: 'Arson', code: ['900', '901', '903', '905', '911', '913', '915', '921', '922', '923', '925',
+                        '931', '933', '941', '942', '951', '961', '971', '972', '975', '981', '981', '982']
+                },
+                { crime: 'Criminal Damage to Property', code: ['1400', '1410', '1420', '1430'] },
+                { crime: 'Graffiti', code: ['1401', '1415', '1416', '1425', '1426', '1435', '1436'] },
+                {
+                    crime: 'Narcotics', code: ['1800', '1810', '1811', '1812', '1813', '1814', '1815', '1820', '1822',
+                        '1823', '1824', '1825', '1830', '1835', '1840', '1841', '1842', '1843', '1844', '1845', '1850',
+                        '1855', '1860', '1885']
+                },
+                { crime: 'Weapons', code: '2619' },
+                { crime: 'Death', code: '3100' },
+                { crime: 'Proactive Police Visit', code: '9954' },
+                { crime: 'Community Engagement Event', code: '9959' },
+                { crime: 'Proactive Foot Patrol', code: '9986' }
             ],
             filteredIncidentTypes: [],
             leaflet: {
@@ -158,7 +172,7 @@ export default {
             return /\d/.test(str);
         },
 
-        manipulateAdress(add){
+        manipulateAdress(add) {
             let num = add.match(/\d+/)[0];
             let newNum = num + 0;
             let len = newNum.length;
@@ -166,17 +180,17 @@ export default {
             return add;
         },
 
-        addAdressMarker(){
-            let caseNumber =  document.getElementById('caseId').value  
+        addAdressMarker() {
+            let caseNumber = document.getElementById('caseId').value
             let myAdd = '';
-            if(!this.containsNumbers(caseNumber)){
+            if (!this.containsNumbers(caseNumber)) {
                 alert('Enter a number')
-            }else{
-                if(caseNumber==''){
+            } else {
+                if (caseNumber == '') {
                     alert('Enter a number')
-                }else{
-                    for(let i =0; i< this.incidents.length ; i++){
-                        if (this.incidents[i].case_number== caseNumber){
+                } else {
+                    for (let i = 0; i < this.incidents.length; i++) {
+                        if (this.incidents[i].case_number == caseNumber) {
                             myAdd = this.manipulateAdress(this.incidents[i].block)
                         }
                     }
@@ -194,143 +208,143 @@ export default {
 
             let lat;
             let lon;
-            let url = 'https://nominatim.openstreetmap.org/search?q=' + myAdd + ',' + 'st_paul' +'&format=jsonv2&limit=0';
-            this.getJSON(url).then((result)=>{
+            let url = 'https://nominatim.openstreetmap.org/search?q=' + myAdd + ',' + 'st_paul' + '&format=jsonv2&limit=0';
+            this.getJSON(url).then((result) => {
                 console.log(result)
                 lat = result[0].lat;
                 lon = result[0].lon;
                 if (lat < 44.883658 || lon < -93.217977 || lat > 45.008206 || lon > -92.993787) {
                     alert("No matches found within St. Paul! Please try a different search query.");
                     return;
-                }else{
-                    let info =[];
-                    for(let i=0; i< this.incidents.length; i++){
-                        if (this.incidents[i].case_number == caseNumber){
+                } else {
+                    let info = [];
+                    for (let i = 0; i < this.incidents.length; i++) {
+                        if (this.incidents[i].case_number == caseNumber) {
                             info.push(this.incidents[i].date)
                             info.push(this.incidents[i].time)
                             info.push(this.incidents[i].incident)
                         }
                     }
-                    L.marker([lat,lon],{icon: myIcon}).addTo(this.leaflet.map).bindPopup('Date: ' + info[0] + ', ' + 'Time: ' + info[1] + ', ' + 'Incident: ' + info[2])
+                    L.marker([lat, lon], { icon: myIcon }).addTo(this.leaflet.map).bindPopup('Date: ' + info[0] + ', ' + 'Time: ' + info[1] + ', ' + 'Incident: ' + info[2])
                 }
-                
-            }).catch((err)=>{
+
+            }).catch((err) => {
                 console.log(err);
             });
-            
+
 
         },
 
-        filterNeighborhoods(){
+        filterNeighborhoods() {
             let neighborhoodIndexes = []
             let i;
             let req;
-            if(this.selectedNeighborhoods.length > 0){
-                for (i=0; i < this.selectedNeighborhoods.length ;i++){
-                        neighborhoodIndexes.push(this.neighborhoods.indexOf(this.selectedNeighborhoods[i]) + 1)
-                    }
+            if (this.selectedNeighborhoods.length > 0) {
+                for (i = 0; i < this.selectedNeighborhoods.length; i++) {
+                    neighborhoodIndexes.push(this.neighborhoods.indexOf(this.selectedNeighborhoods[i]) + 1)
+                }
                 req = '?neighborhood=' + neighborhoodIndexes.toString();
-            }else{
+            } else {
                 req = '?'
             }
 
             return req;
         },
 
-        filterLimit(){
+        filterLimit() {
             let maxIncidents = document.getElementById('maxIncident').value;
             let req;
-            if(this.selectedNeighborhoods.length>0){
-                if(maxIncidents ==''){
+            if (this.selectedNeighborhoods.length > 0) {
+                if (maxIncidents == '') {
                     req = '&limit=1000';
-                }else{
-                    if (!this.containsNumbers(maxIncidents)){
+                } else {
+                    if (!this.containsNumbers(maxIncidents)) {
                         alert('Please enter a number for the incident limit')
-                    }else{
+                    } else {
                         req = '&limit=' + maxIncidents;
                     }
                 }
-            }else{
-                if(maxIncidents ==''){
+            } else {
+                if (maxIncidents == '') {
                     req = 'limit=1000';
-                }else{
-                    if (!this.containsNumbers(maxIncidents)){
+                } else {
+                    if (!this.containsNumbers(maxIncidents)) {
                         alert('Please enter a number for the incident limit')
-                    }else{
+                    } else {
                         req = 'limit=' + maxIncidents;
 
-                    }              
-                }                  
+                    }
+                }
             }
-            
+
             return req;
         },
 
-        filterDateRange(){
+        filterDateRange() {
             let startDate = document.getElementById('startDate').value;
             let endDate = document.getElementById('endDate').value;
             let req;
 
-            if(this.selectedNeighborhoods.length>0){
-                if(startDate=='' & endDate ==''){
+            if (this.selectedNeighborhoods.length > 0) {
+                if (startDate == '' & endDate == '') {
                     req = '&start_date=0000-00-00&end_date=9999-99-99';
                 }
-                if(startDate!='' & endDate !=''){
-                    req = '&start_date='+ startDate + '&end_date=' + endDate;
+                if (startDate != '' & endDate != '') {
+                    req = '&start_date=' + startDate + '&end_date=' + endDate;
                 }
-                if(startDate!= '' & endDate==''){
+                if (startDate != '' & endDate == '') {
                     req = '&start_date=' + startDate;
                 }
-                if(startDate == '' & endDate != ''){
+                if (startDate == '' & endDate != '') {
                     req = '&end_date=' + endDate;
                 }
-            }else{
-                if(startDate=='' & endDate ==''){
-                    req = '&start_date=0000-00-00&end_date=9999-99-99';             
+            } else {
+                if (startDate == '' & endDate == '') {
+                    req = '&start_date=0000-00-00&end_date=9999-99-99';
                 }
-                if(startDate!='' & endDate !=''){
-                    req = 'start_date='+ startDate + '&end_date=' + endDate;
+                if (startDate != '' & endDate != '') {
+                    req = 'start_date=' + startDate + '&end_date=' + endDate;
                 }
-                if(startDate!= '' & endDate==''){
+                if (startDate != '' & endDate == '') {
                     req = '&start_date=' + startDate;
                 }
-                if(startDate == '' & endDate != ''){
+                if (startDate == '' & endDate != '') {
                     req = '&end_date=' + endDate;
                 }
 
             }
             return req;
-           
+
         },
 
-        getSelectedIncidentCodes(){
+        getSelectedIncidentCodes() {
             let codes = [];
-            for(let i = 0; i < this.incidentCodeRanges.length; i++){
-                if(this.filteredIncidentTypes.includes(this.incidentCodeRanges[i].crime)){
-                    if(Array.isArray(this.incidentCodeRanges[i].code)){
-                        for (let j = 0; j< this.incidentCodeRanges[i].code.length ; j++){
+            for (let i = 0; i < this.incidentCodeRanges.length; i++) {
+                if (this.filteredIncidentTypes.includes(this.incidentCodeRanges[i].crime)) {
+                    if (Array.isArray(this.incidentCodeRanges[i].code)) {
+                        for (let j = 0; j < this.incidentCodeRanges[i].code.length; j++) {
                             codes.push(this.incidentCodeRanges[i].code[j]);
                         }
-                    }else{
+                    } else {
                         codes.push(this.incidentCodeRanges[i].code);
                     }
                 }
             }
-            return codes;           
+            return codes;
         },
 
-        filterIncidentType(){
+        filterIncidentType() {
             let req;
-            if (this.selectedNeighborhoods.length >0){
-                if (this.filteredIncidentTypes.length > 0 ){
+            if (this.selectedNeighborhoods.length > 0) {
+                if (this.filteredIncidentTypes.length > 0) {
                     req = '&code=' + this.getSelectedIncidentCodes();
-                }else{
+                } else {
                     req = " "
                 }
-            }else{
-                if(this.filteredIncidentTypes == 0){
+            } else {
+                if (this.filteredIncidentTypes == 0) {
                     req = " "
-                } else{
+                } else {
                     req = '&code=' + this.getSelectedIncidentCodes();
                 }
             }
@@ -338,13 +352,13 @@ export default {
 
         },
 
-        updateTable () {
+        updateTable() {
 
             let url = 'http://localhost:8000/incidents/' + this.filterNeighborhoods() + this.filterLimit() + this.filterDateRange()
-            + this.filterIncidentType();
+                + this.filterIncidentType();
             console.log(url)
             this.updateIncidents(url);
-      
+
         },
 
         updateIncidents(url) {
@@ -355,15 +369,55 @@ export default {
             });
         },
 
+        uploadIncident() {
+            let caseNum = document.getElementById('casenumberinput').value;
+            let date = document.getElementById('dateinput').value;
+            let time = document.getElementById('timeinput').value;
+            let code = document.getElementById('codeinput').value;
+            let incident = document.getElementById('incidentinput').value;
+            let police_grid = document.getElementById('gridinput').value;
+            let neighborhood_number = document.getElementById('neighborhoodinput').value;
+            let block = document.getElementById('blockinput').value;
+
+            if (caseNum == '' || date == '' || time == '' || code == '' || incident == '' || police_grid == '' || neighborhood_number == '' || block == '') {
+                alert('All fields must be filled out! Please try again.');
+                return;
+            }
+
+        
+            let json = new Object();
+            json.case_number = caseNum;
+            json.date = date;
+            json.time = time;
+            json.code = code;
+            json.incident = incident;
+            json.police_grid = police_grid;
+            json.neighborhood_number = neighborhood_number;
+            json.block = block;
+            this.uploadJSON('PUT', 'http://localhost:8000/new-incident', json).then((result) => {
+                alert('Incident successfully uploaded!');
+                document.getElementById('casenumberinput').value = '';
+                document.getElementById('dateinput').value = '';
+                document.getElementById('timeinput').value = '';
+                document.getElementById('codeinput').value = '';
+                document.getElementById('incidentinput').value = '';
+                document.getElementById('gridinput').value = '';
+                document.getElementById('neighborhoodinput').value = '';
+                document.getElementById('blockinput').value = '';
+            }).catch((err) => {
+                alert('Sorry, an incident with this case number already exists.');
+            });
+        }
+
 
     },
 
     computed: {
-      selectedNeighborhoods: function () {
-        return this.neighborhoods.filter(function (item) {
-          return this.filteredNeighborhoods.includes(item);
-        }, this);
-      },
+        selectedNeighborhoods: function () {
+            return this.neighborhoods.filter(function (item) {
+                return this.filteredNeighborhoods.includes(item);
+            }, this);
+        },
     },
 
     mounted() {
@@ -395,11 +449,11 @@ export default {
             console.log(err);
         });
 
-        this.getJSON('http://localhost:8000/codes/').then((result) =>{
-            for (let i =0; i< result.length; i++){
+        this.getJSON('http://localhost:8000/codes/').then((result) => {
+            for (let i = 0; i < result.length; i++) {
                 this.incidentTypes.push(result[i]);
             }
-        }).catch((err) =>{
+        }).catch((err) => {
             console.log(err);
         })
 
@@ -431,13 +485,13 @@ export default {
                     currentNeighborhoods.push(i + 1);
                 }
             }
-            if(document.getElementById('maxIncident').value != ''){
+            if (document.getElementById('maxIncident').value != '') {
                 url = 'http://localhost:8000/incidents/?neighborhood=' + currentNeighborhoods.toString() + '&limit=' + document.getElementById('maxIncident').value;
-            }else{
+            } else {
                 url = 'http://localhost:8000/incidents/?neighborhood=' + currentNeighborhoods.toString();
             }
             this.updateIncidents(url);
-        });       
+        });
     }
 }
 </script>
@@ -452,27 +506,29 @@ export default {
         </div>
     </div>
     <div v-show="view === 'map'">
-        <div class="grid-container">
+        <div class="grid-container full">
             <div class="grid-x grid-padding-x">
                 <input type="text" id="search" class="cell small-10" placeholder="Search">
                 <button type="button" class="cell small-2 button" @click="search()">Go</button>
             </div>
-            <div class="grid-x grid-padding-x">    
-                <input type="text" id="caseId" class="cell small-9" placeholder="Enter a case number and see exactly where the incident happened"/>
-                <button type="button" class="cell small-3 button" @click="addAdressMarker()">See Incident on Map</button>
+            <div class="grid-x grid-padding-x">
+                <input type="text" id="caseId" class="cell small-9"
+                    placeholder="Enter a case number and see exactly where the incident happened" />
+                <button type="button" class="cell small-3 button" @click="addAdressMarker()">See Incident on
+                    Map</button>
 
             </div>
             <div class="grid-x grid-padding-x">
                 <div id="leafletmap" class="cell auto"></div>
             </div>
-            <br/>
+            <br />
 
             <div class="cell small-2">
-                    <button class="button" @click="updateTable()"> Update Table </button>
+                <button class="button" @click="updateTable()"> Update Table </button>
             </div>
 
             <div class="grid-x grid-padding-x">
-                <div class= "cell auto">
+                <div class="cell auto">
                     <table>
                         <thead>
                             <tr>
@@ -482,8 +538,9 @@ export default {
                         </thead>
                         <tbody>
                             <tr v-for="(item) in neighborhoods">
-                                <td><label :for= "item" >{{item}} </label></td>
-                                <td><input type="checkbox" :id="item" :value="item" v-model = "filteredNeighborhoods"/></td>
+                                <td><label :for="item">{{ item }} </label></td>
+                                <td><input type="checkbox" :id="item" :value="item" v-model="filteredNeighborhoods" />
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -502,14 +559,15 @@ export default {
                         </thead>
                         <tbody>
                             <tr v-for="(item) in incidentCodeRanges">
-                                <td><label :for= "item" >{{item.crime}} </label></td>
+                                <td><label :for="item">{{ item.crime }} </label></td>
 
-                                <td><input type="checkbox" :id="item" :value="item.crime" v-model = "filteredIncidentTypes"/></td>
+                                <td><input type="checkbox" :id="item" :value="item.crime"
+                                        v-model="filteredIncidentTypes" /></td>
                             </tr>
                         </tbody>
                     </table>
 
-                </div>  
+                </div>
                 <div id="crimetable" class="cell auto">
                     <table>
                         <thead>
@@ -545,6 +603,17 @@ export default {
             <div class="grid-x grid-padding-x">
                 <h1 class="cell auto">New Incident Form</h1>
             </div>
+            <div class="grid-x grid-padding-x">
+                <input type="text" id="casenumberinput" placeholder="Case Number">
+                <input type="text" id="dateinput" placeholder="Date (yyyy-mm-dd)">
+                <input type="text" id="timeinput" placeholder="Time">
+                <input type="text" id="codeinput" placeholder="Code">
+                <input type="text" id="incidentinput" placeholder="Incident Type">
+                <input type="text" id="gridinput" placeholder="Police Grid">
+                <input type="text" id="neighborhoodinput" placeholder="Neighborhood Number">
+                <input type="text" id="blockinput" placeholder="Block">
+                <button type="button" class="cell small-12 button" @click="uploadIncident()">Upload Incident</button>
+            </div>
         </div>
     </div>
     <div v-if="view === 'about'">
@@ -569,7 +638,8 @@ export default {
                     <h4 style="text-align: center">Neshua Aguilar</h4>
                     <img src="data/neshuaSmall.jpg" alt="Neshua photo"
                         style="width:15rem; margin-left: auto; margin-right: auto; display: block;">
-                    <p style="font-size: 1.25rem; text-align: center">Neshua Aguilar is a senior graduating in May with a major in
+                    <p style="font-size: 1.25rem; text-align: center">Neshua Aguilar is a senior graduating in May with
+                        a major in
                         Computer Science and minor in Data Science.</p>
 
                 </div>
@@ -597,12 +667,13 @@ export default {
                             <li>Many crimes occur in the Payne/Phalen area</li>
                             <li>3 thefts occured at 5:00:00PM on 2014-08-14 in the Payne/Phalen neighborhood</li>
                             <li>The most common crime type appears to be Theft</li>
-                            <li>Nominatim's API is full-featured and useful</li>
                             <li>The 'map.moveend' event is triggered both after panning and zooming the map</li>
                             <li>There have been no murders in the neighborhood of Conway/Battlecreek/Highwood </li>
-                            <li>Sometimes the Nominatim API had a hard time finding a specific location, or it would think the adress is in a different state</li>
+                            <li>Sometimes the Nominatim API had a hard time finding a specific location, or it would
+                                think the adress is in a different state</li>
                             <li>when we update the page, the specific crime markers go away</li>
-                            <li>In a span of five days, from 02/10/2015 to 02/15/2015 there were six crimes in the Highland neighborhood</li>
+                            <li>In a span of five days, from 02/10/2015 to 02/15/2015 there were six crimes in the
+                                Highland neighborhood</li>
                         </ul>
                     </div>
                 </div>
