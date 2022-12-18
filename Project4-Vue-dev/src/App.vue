@@ -8,7 +8,43 @@ export default {
             view: 'map',
             codes: [],
             neighborhoods: [],
+            filteredNeighborhoods: [],
             incidents: [],
+            incidentTypes: [],
+            incidentCodeRanges: [
+                {crime: 'Homicide', code: '100'},
+                {crime: 'Murder', code: ['110', '120']},
+                {crime: 'Rape', code: ['210','220']},
+                {crime: 'Roberry', code: ['300', '310', '313', '314', '321', '322', '323', '324',
+                        '331', '333', '334', '341', '342', '343', '344', '351', '352', '353', '354',
+                        '361', '363', '364', '371', '372', '373', '374']},
+                {crime: 'Agravated Assault', code:['400', '410', '411', '412', '420', '421','422',
+                        '430', '431', '432', '440', '441', '442', '450', '451', '452', '453']},
+                {crime: 'Burglary', code: ['500', '510', '511','513','515', '516', '520', '521',
+                        '523', '525', '526', '530', '531', '533', '535', '536', '540', '541', '543',
+                        '545','545','546','550','552','551','553','555', '556','560','561', '563',
+                        '565','566']},
+                {crime: 'Theft', code: ['600', '603', '611','612', '613', '614', '621', '622',
+                        '623', '630', '631','632','633','631','633','640','641','642', '643','651',
+                        '652', '653', '661', '662','663','671','672','673','681','682','683','691',
+                        '692','693']},
+                {crime: 'Motor Vehicle Theft', code:[ '700', '710','711','712','720','721','730','731',
+                        '732']},
+                {crime: 'Assault', code: ['810', '861','862','863']},
+                {crime: 'Arson', code: ['900','901','903','905','911','913','915','921','922','923','925',
+                        '931','933','941','942','951','961','971','972','975', '981','981','982']},
+                {crime: 'Criminal Damage to Property', code:[ '1400','1410', '1420', '1430']},
+                {crime: 'Graffiti', code: ['1401', '1415', '1416', '1425', '1426', '1435', '1436']},
+                {crime: 'Narcotics', code: ['1800','1810','1811','1812','1813','1814','1815','1820','1822',
+                        '1823','1824','1825','1830','1835','1840','1841','1842','1843','1844','1845','1850',
+                        '1855', '1860','1885']},
+                {crime: 'Weapons', code: '2619'},
+                {crime: 'Death', code: '3100'},
+                {crime: 'Proactive Police Visit', code: '9954'},
+                {crime: 'Community Engagement Event', code: '9959'},
+                {crime: 'Proactive Foot Patrol', code: '9986'}
+            ],
+            filteredIncidentTypes: [],
             leaflet: {
                 map: null,
                 center: {
@@ -116,14 +152,157 @@ export default {
                 console.log(err);
             });
         },
+
+        containsNumbers(str) {
+            return /\d/.test(str);
+        },
+        
+        filterNeighborhoods(){
+            let neighborhoodIndexes = []
+            let i;
+            let req;
+            if(this.selectedNeighborhoods.length > 0){
+                for (i=0; i < this.selectedNeighborhoods.length ;i++){
+                        neighborhoodIndexes.push(this.neighborhoods.indexOf(this.selectedNeighborhoods[i]) + 1)
+                    }
+                req = '?neighborhood=' + neighborhoodIndexes.toString();
+            }else{
+                req = '?'
+            }
+
+            return req;
+        },
+
+        filterLimit(){
+            let maxIncidents = document.getElementById('maxIncident').value;
+            let startDate = document.getElementById('startDate').value;
+            let endDate = document.getElementById('endDate').value;
+            let req;
+            if(this.selectedNeighborhoods.length>0){
+                if(maxIncidents ==''){
+                    req = '&limit=1000';
+                }else{
+                    if (!this.containsNumbers(maxIncidents)){
+                        alert('Please enter a number for the incident limit')
+                    }else{
+                        req = '&limit=' + maxIncidents;
+                    }
+                }
+            }else{
+                if(maxIncidents ==''){
+                    req = 'limit=1000';
+                }else{
+                    if (!this.containsNumbers(maxIncidents)){
+                        alert('Please enter a number for the incident limit')
+                    }else{
+                        req = 'limit=' + maxIncidents;
+
+                    }              
+                }                  
+            }
+            
+            return req;
+        },
+
+        filterDateRange(){
+            let startDate = document.getElementById('startDate').value;
+            let endDate = document.getElementById('endDate').value;
+            let maxIncidents = document.getElementById('maxIncident').value;
+            let req;
+
+            if(this.selectedNeighborhoods.length>0){
+                if(startDate=='' & endDate ==''){
+                    req = '&start_date=0000-00-00&end_date=9999-99-99';
+                }
+                if(startDate!='' & endDate !=''){
+                    req = '&start_date='+ startDate + '&end_date=' + endDate;
+                }
+                if(startDate!= '' & endDate==''){
+                    req = '&start_date=' + startDate;
+                }
+                if(startDate == '' & endDate != ''){
+                    req = '&end_date=' + endDate;
+                }
+            }else{
+                if(startDate=='' & endDate ==''){
+                    req = '&start_date=0000-00-00&end_date=9999-99-99';             
+                }
+                if(startDate!='' & endDate !=''){
+                    req = 'start_date='+ startDate + '&end_date=' + endDate;
+                }
+                if(startDate!= '' & endDate==''){
+                    req = '&start_date=' + startDate;
+                }
+                if(startDate == '' & endDate != ''){
+                    req = '&end_date=' + endDate;
+                }
+
+            }
+            return req;
+           
+        },
+
+        getSelectedIncidentCodes(){
+            let codes = [];
+            for(let i = 0; i < this.incidentCodeRanges.length; i++){
+                if(this.filteredIncidentTypes.includes(this.incidentCodeRanges[i].crime)){
+                    if(Array.isArray(this.incidentCodeRanges[i].code)){
+                        for (let j = 0; j< this.incidentCodeRanges[i].code.length ; j++){
+                            codes.push(this.incidentCodeRanges[i].code[j]);
+                        }
+                    }else{
+                        codes.push(this.incidentCodeRanges[i].code);
+                    }
+                }
+            }
+            return codes;           
+        },
+
+        filterIncidentType(){
+            let req;
+            if (this.selectedNeighborhoods.length >0){
+                if (this.filteredIncidentTypes.length > 0 ){
+                    req = '&code=' + this.getSelectedIncidentCodes();
+                }else{
+                    req = " "
+                }
+            }else{
+                if(this.filteredIncidentTypes == 0){
+                    req = " "
+                } else{
+                    req = '&code=' + this.getSelectedIncidentCodes();
+                }
+            }
+            return req;
+
+        },
+
+        updateTable () {
+
+            let url = 'http://localhost:8000/incidents/' + this.filterNeighborhoods() + this.filterLimit() + this.filterDateRange()
+            + this.filterIncidentType();
+            console.log(url)
+            this.updateIncidents(url);
+      
+        },
+
         updateIncidents(url) {
             this.getJSON(url).then((result) => {
                 this.incidents = result;
             }).catch((err) => {
                 console.log(err);
             });
-        }
+        },
     },
+
+    computed: {
+      selectedNeighborhoods: function () {
+        return this.neighborhoods.filter(function (item) {
+          return this.filteredNeighborhoods.includes(item);
+        }, this);
+      },
+    },
+
     mounted() {
         this.leaflet.map = L.map('leafletmap').setView([this.leaflet.center.lat, this.leaflet.center.lng], this.leaflet.zoom);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -153,6 +332,14 @@ export default {
             console.log(err);
         });
 
+        this.getJSON('http://localhost:8000/codes/').then((result) =>{
+            for (let i =0; i< result.length; i++){
+                this.incidentTypes.push(result[i]);
+            }
+        }).catch((err) =>{
+            console.log(err);
+        })
+
         this.getJSON('http://localhost:8000/incidents/').then((result) => {
             this.incidents = result;
             for (let i = 0; i < this.leaflet.neighborhood_markers.length; i++) {
@@ -172,6 +359,7 @@ export default {
 
         this.leaflet.map.on('moveend', (e) => {
             let currentNeighborhoods = [];
+            let url;
             let bounds = this.leaflet.map.getBounds();
             let neighborhoods_temp = this.leaflet.neighborhood_markers;
             for (let i = 0; i < neighborhoods_temp.length; i++) {
@@ -180,9 +368,13 @@ export default {
                     currentNeighborhoods.push(i + 1);
                 }
             }
-            let url = 'http://localhost:8000/incidents/?neighborhood=' + currentNeighborhoods.toString();
+            if(document.getElementById('maxIncident').value != ''){
+                url = 'http://localhost:8000/incidents/?neighborhood=' + currentNeighborhoods.toString() + '&limit=' + document.getElementById('maxIncident').value;
+            }else{
+                url = 'http://localhost:8000/incidents/?neighborhood=' + currentNeighborhoods.toString();
+            }
             this.updateIncidents(url);
-        });
+        });       
     }
 }
 </script>
@@ -205,7 +397,50 @@ export default {
             <div class="grid-x grid-padding-x">
                 <div id="leafletmap" class="cell auto"></div>
             </div>
+
+            <button class="button" @click="updateTable()"> Update Table </button>
+
             <div class="grid-x grid-padding-x">
+                <div class= "cell auto">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Neighborhood</th>
+                                <th> Select </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(item) in neighborhoods">
+                                <td><label :for= "item" >{{item}} </label></td>
+                                <td><input type="checkbox" :id="item" :value="item" v-model = "filteredNeighborhoods"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <input type="text" id="maxIncident" placeholder="Incident Limit (default 1000)">
+                    <input type="text" id="startDate" placeholder="Start Date (yyyy-mm-dd)">
+                    <input type="text" id="endDate" placeholder="End Date (yyyy-mm-dd)">
+
+                </div>
+                <div class="cell auto">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Crime</th>
+                                <th> Select </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(item) in incidentCodeRanges">
+                                <td><label :for= "item" >{{item.crime}} </label></td>
+
+                                <td><input type="checkbox" :id="item" :value="item.crime" v-model = "filteredIncidentTypes"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+                
                 <div id="crimetable" class="cell auto">
                     <table>
                         <thead>
