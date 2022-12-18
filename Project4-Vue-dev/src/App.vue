@@ -7,6 +7,7 @@ export default {
         return {
             view: 'map',
             codes: [],
+            caseNum: [],
             neighborhoods: [],
             filteredNeighborhoods: [],
             incidents: [],
@@ -156,7 +157,70 @@ export default {
         containsNumbers(str) {
             return /\d/.test(str);
         },
-        
+
+        manipulateAdress(add){
+            let num = add.match(/\d+/)[0];
+            let newNum = num + 0;
+            let len = newNum.length;
+            add = newNum.toString() + add.slice(len);
+            return add;
+        },
+
+        addAdressMarker(){
+            let caseNumber =  document.getElementById('caseId').value  
+            let myAdd = '';
+            if(!this.containsNumbers(caseNumber)){
+                alert('Enter a number')
+            }else{
+                if(caseNumber==''){
+                    alert('Enter a number')
+                }else{
+                    for(let i =0; i< this.incidents.length ; i++){
+                        if (this.incidents[i].case_number== caseNumber){
+                            myAdd = this.manipulateAdress(this.incidents[i].block)
+                        }
+                    }
+                }
+            };
+
+            let myIcon = L.icon({
+                iconUrl: 'data/map-marker-icon.png',
+                iconSize: [38, 38],
+                iconAnchor: [22, 22],
+                popupAnchor: [-3, -3],
+                shadowSize: [68, 95],
+                shadowAnchor: [22, 94]
+            });
+
+            let lat;
+            let lon;
+            let url = 'https://nominatim.openstreetmap.org/search?q=' + myAdd + ',' + 'st_paul' +'&format=jsonv2&limit=0';
+            this.getJSON(url).then((result)=>{
+                console.log(result)
+                lat = result[0].lat;
+                lon = result[0].lon;
+                if (lat < 44.883658 || lon < -93.217977 || lat > 45.008206 || lon > -92.993787) {
+                    alert("No matches found within St. Paul! Please try a different search query.");
+                    return;
+                }else{
+                    let info =[];
+                    for(let i=0; i< this.incidents.length; i++){
+                        if (this.incidents[i].case_number == caseNumber){
+                            info.push(this.incidents[i].date)
+                            info.push(this.incidents[i].time)
+                            info.push(this.incidents[i].incident)
+                        }
+                    }
+                    L.marker([lat,lon],{icon: myIcon}).addTo(this.leaflet.map).bindPopup('Date: ' + info[0] + ', ' + 'Time: ' + info[1] + ', ' + 'Incident: ' + info[2])
+                }
+                
+            }).catch((err)=>{
+                console.log(err);
+            });
+            
+
+        },
+
         filterNeighborhoods(){
             let neighborhoodIndexes = []
             let i;
@@ -175,8 +239,6 @@ export default {
 
         filterLimit(){
             let maxIncidents = document.getElementById('maxIncident').value;
-            let startDate = document.getElementById('startDate').value;
-            let endDate = document.getElementById('endDate').value;
             let req;
             if(this.selectedNeighborhoods.length>0){
                 if(maxIncidents ==''){
@@ -207,7 +269,6 @@ export default {
         filterDateRange(){
             let startDate = document.getElementById('startDate').value;
             let endDate = document.getElementById('endDate').value;
-            let maxIncidents = document.getElementById('maxIncident').value;
             let req;
 
             if(this.selectedNeighborhoods.length>0){
@@ -293,6 +354,8 @@ export default {
                 console.log(err);
             });
         },
+
+
     },
 
     computed: {
@@ -394,11 +457,19 @@ export default {
                 <input type="text" id="search" class="cell small-10" placeholder="Search">
                 <button type="button" class="cell small-2 button" @click="search()">Go</button>
             </div>
+            <div class="grid-x grid-padding-x">    
+                <input type="text" id="caseId" class="cell small-9" placeholder="Enter a case number and see exactly where the incident happened"/>
+                <button type="button" class="cell small-3 button" @click="addAdressMarker()">See Incident on Map</button>
+
+            </div>
             <div class="grid-x grid-padding-x">
                 <div id="leafletmap" class="cell auto"></div>
             </div>
+            <br/>
 
-            <button class="button" @click="updateTable()"> Update Table </button>
+            <div class="cell small-2">
+                    <button class="button" @click="updateTable()"> Update Table </button>
+            </div>
 
             <div class="grid-x grid-padding-x">
                 <div class= "cell auto">
@@ -438,9 +509,7 @@ export default {
                         </tbody>
                     </table>
 
-                </div>
-
-                
+                </div>  
                 <div id="crimetable" class="cell auto">
                     <table>
                         <thead>
@@ -459,7 +528,7 @@ export default {
                                 <td>{{ item.case_number }}</td>
                                 <td>{{ item.date }}</td>
                                 <td>{{ item.time }}</td>
-                                <td>{{ item.incident }}</td>
+                                <td> {{ item.incident }}</td>
                                 <td>{{ item.police_grid }}</td>
                                 <td>{{ neighborhoods[item.neighborhood_number - 1] }}</td>
                                 <td>{{ item.block }}</td>
@@ -498,8 +567,11 @@ export default {
                 <div class="cell small-6"
                     style="border: 0.05em solid black; border-radius: 1em; margin-top: 1em; margin-bottom: 1em">
                     <h4 style="text-align: center">Neshua Aguilar</h4>
-                    <!-- Add an image here -->
-                    <!-- Add a short bio here -->
+                    <img src="data/neshuaSmall.jpg" alt="Neshua photo"
+                        style="width:15rem; margin-left: auto; margin-right: auto; display: block;">
+                    <p style="font-size: 1.25rem; text-align: center">Neshua Aguilar is a senior graduating in May with a major in
+                        Computer Science and minor in Data Science.</p>
+
                 </div>
             </div>
             <div class="grid-x grid-margin-x">
@@ -527,6 +599,10 @@ export default {
                             <li>The most common crime type appears to be Theft</li>
                             <li>Nominatim's API is full-featured and useful</li>
                             <li>The 'map.moveend' event is triggered both after panning and zooming the map</li>
+                            <li>There have been no murders in the neighborhood of Conway/Battlecreek/Highwood </li>
+                            <li>Sometimes the Nominatim API had a hard time finding a specific location, or it would think the adress is in a different state</li>
+                            <li>when we update the page, the specific crime markers go away</li>
+                            <li>In a span of five days, from 02/10/2015 to 02/15/2015 there were six crimes in the Highland neighborhood</li>
                         </ul>
                     </div>
                 </div>
