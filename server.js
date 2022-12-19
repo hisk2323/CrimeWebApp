@@ -85,7 +85,7 @@ app.get('/incidents', (req, res) => {
     console.log(req.query); // query object (key-value pairs after the ? in the url)
     let query;
     if (Object.keys(req.query).length === 0) { // empty query
-        query = "SELECT case_number, date(date_time) AS date, time(date_time) AS time, code, incident, police_grid, neighborhood_number, block FROM Incidents ORDER BY date_time LIMIT 1000;";
+        query = "SELECT case_number, date(date_time) AS date, time(date_time) AS time, code, incident, police_grid, neighborhood_number, block FROM Incidents ORDER BY date_time DESC LIMIT 1000;";
     } else {
         query = "SELECT case_number, date(date_time) AS date, time(date_time) AS time, code, incident, police_grid, neighborhood_number, block FROM Incidents WHERE";
 
@@ -116,7 +116,7 @@ app.get('/incidents', (req, res) => {
         }
 
         query += ' date(date_time) >= "' + params[0] + '" AND date(date_time) <= "' + params[1] + '" AND code IN (' + params[2] + ') AND police_grid IN (' +
-        params[3] +') AND neighborhood_number IN (' + params[4] + ') ORDER BY date_time LIMIT ' + params[5] + ';';
+        params[3] +') AND neighborhood_number IN (' + params[4] + ') ORDER BY date_time DESC LIMIT ' + params[5] + ';';
 
         console.log(query);
     }
