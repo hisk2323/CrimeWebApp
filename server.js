@@ -16,6 +16,10 @@ let port = 8000;
 app.use(express.json());
 app.use(cors());
 
+let publicdir = path.join(__dirname, 'public');
+app.use(express.static(publicdir));
+
+
 // Open SQLite3 database (in read-write mode)
 let db = new sqlite3.Database(db_filename, sqlite3.OPEN_READWRITE, (err) => {
     if (err) {
@@ -26,6 +30,10 @@ let db = new sqlite3.Database(db_filename, sqlite3.OPEN_READWRITE, (err) => {
     }
 });
 
+// Serve VUE app
+app.get('/', (req, res) => {
+    res.sendFile(path.join(publicdir, 'index.html'));
+});
 
 // GET request handler for crime codes
 app.get('/codes', (req, res) => {

@@ -628,7 +628,7 @@ export default {
                 <div class="cell small-6"
                     style="border: 0.05em solid black; border-radius: 1em; margin-top: 1em; margin-bottom: 1em">
                     <h4 style="text-align: center">Owen Hiskey</h4>
-                    <img src="data/owen.jpg" alt="Owen photo"
+                    <img src="/data/owen.jpg" alt="Owen photo"
                         style="width:15rem; margin-left: auto; margin-right: auto; display: block;">
                     <p style="font-size: 1.25rem; text-align: center">Owen Hiskey is a senior computer science student
                         graduating this May.</p>
@@ -636,7 +636,7 @@ export default {
                 <div class="cell small-6"
                     style="border: 0.05em solid black; border-radius: 1em; margin-top: 1em; margin-bottom: 1em">
                     <h4 style="text-align: center">Neshua Aguilar</h4>
-                    <img src="data/neshuaSmall.jpg" alt="Neshua photo"
+                    <img src="/data/neshuaSmall.jpg" alt="Neshua photo"
                         style="width:15rem; margin-left: auto; margin-right: auto; display: block;">
                     <p style="font-size: 1.25rem; text-align: center">Neshua Aguilar is a senior graduating in May with
                         a major in
