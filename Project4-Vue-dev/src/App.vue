@@ -682,8 +682,7 @@ export default {
                 <div class="cell small-12" style="border: 0.05em solid black; border-radius: 1em; margin-top: 1em">
                     <h3 class="cell auto" style="text-align: center">Project demo</h3>
                     <div class="cell small-12 text-center">
-                        <a href="https://www.youtube.com/watch?v=zFypyoiNKv8&ab_channel=NeshuaAguilar" >  CLICK TO WATCH DEMO 
-                        </a>
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/zFypyoiNKv8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>                    
                     </div>
                 </div>
             </div>
