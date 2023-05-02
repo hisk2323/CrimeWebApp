@@ -69,8 +69,8 @@ such as Nominatim and Leaflet.
 * [![Vue][Vue.js]][Vue-url]
 * [![Bootstrap][Bootstrap.com]][Bootstrap-url]
 * [![JQuery][JQuery.com]][JQuery-url]
-* [![Leaflet][Leafletjs.com]][https://leafletjs.com/]
-* [![Nominatim][Nominatim.com]][https://nominatin.org/]
+* [![Leaflet][Leafletjs.com]](https://leafletjs.com/)
+* [![Nominatim][Nominatim.com]](https://nominatin.org/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
