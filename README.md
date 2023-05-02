@@ -180,7 +180,7 @@ Project Link: [https://github.com/hisk2323/CrimeWebApp](https://github.com/hisk2
 [issues-shield]: https://img.shields.io/github/issues/hisk2323/CrimeWebApp.svg?style=for-the-badge
 [issues-url]: https://github.com/hisk2323/CrimeWebApp/issues
 [license-shield]: https://img.shields.io/github/license/hisk2323/CrimeWebApp.svg?style=for-the-badge
-[license-url]: https://github.com/hisk2323/CrimeWebApp/blob/master/LICENSE.txt
+[license-url]: https://github.com/hisk2323/CrimeWebApp/blob/main/LICENSE.txt
 [product-screenshot]: Screenshots/screenshot1.png
 [Vue.js]: https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D
 [Vue-url]: https://vuejs.org/
