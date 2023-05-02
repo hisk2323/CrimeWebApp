@@ -5,16 +5,9 @@
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
 
 
 
-<!-- PROJECT LOGO -->
-<br />
-<div align="center">
-  <a href="https://github.com/hisk2323/CrimeWebApp">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
-  </a>
 
 <h3 align="center">CrimeWebApp</h3>
 
@@ -64,10 +57,8 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
-
-Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `hisk2323`, `CrimeWebApp`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `CrimeWebApp`, `A simpe Vue-based single page application (SPA) to display crime statistics from a database. Integrates multiple APIs to make this work. `
+A simple Vue-based single page application for the purpose of displaying crime statistics from a database on a map. Integrates multiple APIs and services,
+such as Nominatim and Leaflet.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -79,7 +70,7 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 * [![Bootstrap][Bootstrap.com]][Bootstrap-url]
 * [![JQuery][JQuery.com]][JQuery-url]
 * [![Leaflet][Leafletjs.com][https://leafletjs.com/]
-* [![Nominatim][Nominatin.org][https://nominatim.org/]
+* [![Nominatim][Nominatin.com][https://nominatim.org/]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -201,3 +192,5 @@ Project Link: [https://github.com/hisk2323/CrimeWebApp](https://github.com/hisk2
 [Bootstrap-url]: https://getbootstrap.com
 [JQuery.com]: https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white
 [JQuery-url]: https://jquery.com 
+[Leafletjs.com]: https://img.shields.io/badge/Leaflet-199900?style=for-the-badge&logo=Leaflet&logoColor=white
+[Nominatim.com]: https://img.shields.io/badge/-nominatim-blue
