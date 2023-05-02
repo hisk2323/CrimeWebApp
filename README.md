@@ -17,7 +17,6 @@
     <a href="https://github.com/hisk2323/CrimeWebApp"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/hisk2323/CrimeWebApp">View Demo</a>
     ·
     <a href="https://github.com/hisk2323/CrimeWebApp/issues">Report Bug</a>
     ·
@@ -192,4 +191,4 @@ Project Link: [https://github.com/hisk2323/CrimeWebApp](https://github.com/hisk2
 [JQuery.com]: https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white
 [JQuery-url]: https://jquery.com 
 [Leafletjs.com]: https://img.shields.io/badge/Leaflet-199900?style=for-the-badge&logo=Leaflet&logoColor=white
-[Nominatim.com]: https://img.shields.io/badge/-nominatim-blue
+[Nominatim.com]: https://img.shields.io/badge/-nominatim-blue?style=for-the-badge&logo=Nominatim&logoColor=white
