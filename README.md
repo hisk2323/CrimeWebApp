@@ -69,8 +69,8 @@ such as Nominatim and Leaflet.
 * [![Vue][Vue.js]][Vue-url]
 * [![Bootstrap][Bootstrap.com]][Bootstrap-url]
 * [![JQuery][JQuery.com]][JQuery-url]
-* [![Leaflet][Leafletjs.com][https://leafletjs.com/]
-* [![Nominatim][Nominatin.com][https://nominatim.org/]
+* [![Leaflet][Leafletjs.com]][https://leafletjs.com/]
+* [![Nominatim][Nominatim.com]][https://nominatin.org/]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -79,13 +79,12 @@ such as Nominatim and Leaflet.
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+This project is quite simple to get running locally. Short of installing a few NPM packages, this repository contains
+everything you need to get started. 
 
 ### Prerequisites
 
-None! Short of installing a few NPM packages, this repository contains
-everything you need to get started. 
+You will need [NPM](https://www.npmjs.com/) installed before you can get a local copy of this project up and running.
 
 ### Installation
 
